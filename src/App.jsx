@@ -1,16 +1,27 @@
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import HomePage from "./component/Pages/home";
 import Parent from "./component/Pages/parent";
 
 function App() {
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Parent />,
+        children: [
+          {
+            path: "/",
+            element: <HomePage />,
+          },
+        ],
+      },
+    ],
     {
-      path: "/",
-      element: <Parent />,
-      children: [{ path: "/", element: <HomePage /> }],
-    },
-  ]);
+      basename: "/PORTFOLIO",
+    }
+  );
 
   return <RouterProvider router={router} />;
 }
