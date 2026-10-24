@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light Theme */
+:root {
+  color-scheme: light;
+
+  --background: #f1eee8;
+  --surface: #fbfaf7;
+
+  --primary: #8f3d32;
+  --secondary: #c6a15b;
+  --accent: #243b53;
+
+  --text: #171b1f;
+  --text-muted: #68737a;
+  --border: #d5d1c9;
+
+  --success: #287a50;
+  --error: #c0392b;
+
+  --dot-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Dark Theme */
+.dark {
+  color-scheme: dark;
+
+  --background: #111418;
+  --surface: #1b2026;
+
+  --primary: #e08b7d;
+  --secondary: #e0bd76;
+  --accent: #b8cfe5;
+
+  --text: #edf0f2;
+  --text-muted: #a2adb7;
+  --border: #353d46;
+
+  --success: #6fcf97;
+  --error: #ff8585;
+
+  --dot-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Global Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--text);
+    transition:
+      background-color 0.25s,
+      color 0.25s;
+  }
+}
+
+/* Dot Background */
+@layer utilities {
+  .dot-background {
+    background-color: var(--background);
+    background-image: radial-gradient(
+      var(--dot-color) 1.5px,
+      transparent 1.5px
+    );
+    background-size: 24px 24px;
+  }
+
+  .portfolio-font{
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+}
