@@ -362,7 +362,7 @@ export default function HomePage() {
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center gap-3 rounded-full bg-accent px-7 py-4 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
-              Mail me
+             Contact me
               <span aria-hidden="true">↗</span>
             </a>
           </div>
