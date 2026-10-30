@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import HomePage from "./component/Pages/home";
@@ -18,9 +17,6 @@ function App() {
         ],
       },
     ],
-    {
-      basename: "/PORTFOLIO",
-    }
   );
 
   return <RouterProvider router={router} />;
