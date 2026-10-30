@@ -1,24 +1,59 @@
+import { useEffect } from "react";
 import Github from "../../assets/github.jsx";
 import Linkedin from "../../assets/linkedin.jsx";
 import about from "../../assets/about.png";
 import Home from "../../assets/Home.png";
 
 export default function HomePage() {
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) {
+      return;
+    }
+
+    const elements = document.querySelectorAll("[data-scroll-reveal]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    document.documentElement.classList.add("has-scroll-reveal");
+    elements.forEach((element) => observer.observe(element));
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("has-scroll-reveal");
+      elements.forEach((element) => element.classList.remove("is-visible"));
+    };
+  }, []);
+
   return (
-    <main
-      id="home"
-      className="dot-background min-h-screen scroll-smooth text-main"
-    >
+    <main className="dot-background min-h-screen scroll-smooth text-main">
       {/* Hero */}
 
-      <section className="relative flex min-h-[calc(100svh-5rem)] flex-col overflow-hidden px-6 pb-12 pt-20 sm:px-10 lg:px-16">
-        <div className="mt-4 flex w-fit items-center gap-2 rounded-full border border-default bg-surface px-3 py-1.5 text-xs">
+      <section
+        id="home"
+        className="relative flex min-h-[calc(100svh-5rem)] flex-col overflow-hidden px-6 pb-12 pt-20 sm:px-10 lg:px-16"
+      >
+        <div
+          data-scroll-reveal
+          className="mt-4 flex w-fit items-center gap-2 rounded-full border border-default bg-surface px-3 py-1.5 text-xs"
+        >
           <div className="h-2 w-2 animate-pulse rounded-full bg-success shadow-[0px_2px_8px_rgba(111,207,151,0.6)]" />
           Available for freelancing
         </div>
 
         <div className="relative mt-10 flex flex-1 flex-col justify-center gap-8 lg:flex-row lg:items-center lg:gap-10">
-          <div className="relative z-10 flex w-full flex-col gap-6 lg:w-1/2">
+          <div
+            data-scroll-reveal
+            className="relative z-10 flex w-full flex-col gap-6 lg:w-1/2"
+          >
             <h1 className="text-4xl font-bold text-accent sm:text-5xl lg:text-6xl">
               Hi,
               <br />
@@ -74,7 +109,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative flex w-full items-center justify-center lg:w-1/2">
+          <div
+            data-scroll-reveal
+            data-scroll-reveal-delay="1"
+            className="relative flex w-full items-center justify-center lg:w-1/2"
+          >
             <img
               src={Home}
               alt="Illustration of a frontend developer"
@@ -90,11 +129,17 @@ export default function HomePage() {
         id="about"
         className="scroll-mt-24 border-t border-accent px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
       >
-        <h1 className="text-right text-4xl font-bold text-secondary sm:text-5xl lg:text-6xl">
+        <h1
+          data-scroll-reveal
+          className="text-right text-4xl font-bold text-secondary sm:text-5xl lg:text-6xl"
+        >
           ABOUT
         </h1>
 
-        <div className="mt-8 flex flex-col items-center gap-10 md:flex-row md:gap-12 lg:gap-16">
+        <div
+          data-scroll-reveal
+          className="mt-8 flex flex-col items-center gap-10 md:flex-row md:gap-12 lg:gap-16"
+        >
           <div className="w-full md:w-1/2">
             <img
               src={about}
@@ -144,6 +189,8 @@ export default function HomePage() {
 
       {/* Projects */}
 
+      {/* Projects */}
+
       <section
         id="projects"
         className="scroll-mt-24 border-t border-accent px-6 py-20 sm:px-10 sm:py-28 lg:px-16"
@@ -159,22 +206,79 @@ export default function HomePage() {
           </p>
 
           <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {/* AI Chatbot */}
+            {/* RedTape Landing Page */}
             <article className="group flex flex-col rounded-2xl border border-default bg-main/50 p-6 transition-all duration-300 hover:-translate-y-2 hover:border-accent hover:shadow-xl sm:p-8">
               <div className="mb-5 flex items-start justify-between gap-3">
                 <h3 className="text-2xl font-bold text-accent transition-colors group-hover:text-secondary sm:text-3xl">
-                  Basic AI Chatbot
+                  RedTape Landing page ui clone
                 </h3>
                 <span className="shrink-0 rounded-full border border-accent/40 px-3 py-1 text-xs font-medium text-secondary">
-                  Full stack Project
+                  Frontend Clone Project
                 </span>
               </div>
 
               <p className="leading-7 tracking-wide text-text">
-                An AI chatbot application with a clean, user-friendly interface,
-                user authentication, and AI-powered conversational features,
-                allowing users to interact with an AI assistant and receive
-                helpful responses.
+                A responsive RedTape-inspired landing page clone built to
+                recreate the brand’s e-commerce UI, featuring product sections,
+                category navigation, and a clean shopping-focused layout.
+              </p>
+
+              <div className="mt-7">
+                <div className="mb-4 flex items-center gap-3 text-lg font-semibold text-secondary">
+                  <span className="h-px w-6 bg-accent" />
+                  Tech Stack
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {["Html", "Css"].map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-lg border border-default px-3 py-2 text-sm text-text transition-colors hover:border-accent hover:text-secondary"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-auto flex flex-wrap gap-3 pt-8">
+                <a
+                  href="https://github.com/g4urav1/redtape-landingpage-ui-clone"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-lg border border-default px-5 py-2.5 font-medium text-text transition-all hover:border-accent hover:text-secondary"
+                >
+                  GitHub
+                </a>
+
+                <a
+                  href="https://g4urav1.github.io/redtape-landingpage-ui-clone/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-lg bg-secondary px-5 py-2.5 font-semibold text-main transition-all hover:opacity-85"
+                  title="NOT LIVE YET"
+                >
+                  Live Demo
+                </a>
+              </div>
+            </article>
+
+            {/* TODO App */}
+            <article className="group flex flex-col rounded-2xl border border-default bg-main/50 p-6 transition-all duration-300 hover:-translate-y-2 hover:border-accent hover:shadow-xl sm:p-8">
+              <div className="mb-5 flex items-start justify-between gap-3">
+                <h3 className="text-2xl font-bold text-accent transition-colors group-hover:text-secondary sm:text-3xl">
+                  TODO App with Backend
+                </h3>
+                <span className="shrink-0 rounded-full border border-accent/40 px-3 py-1 text-xs font-medium text-secondary">
+                  Full Stack Project
+                </span>
+              </div>
+
+              <p className="leading-7 tracking-wide text-text">
+                A backend-centric To-Do app that securely manages task
+                persistence across logins, allowing users to access their saved
+                tasks even after logging out and back in. Features user
+                authentication and email OTP-based password recovery.
               </p>
 
               <div className="mt-7">
@@ -185,18 +289,13 @@ export default function HomePage() {
 
                 <div className="flex flex-wrap gap-2">
                   {[
-                    "React.js",
-                    "Tailwind CSS",
+                    "HTML",
+                    "CSS",
                     "JavaScript",
                     "Node.js",
                     "Express.js",
-                    "MongoDB",
-                    "Mongoose",
-                    "OpenRouter AI API",
                     "Nodemailer",
-                    "Vite",
-                    "React Router",
-                    "Lucide React",
+                    "JSON File Storage",
                   ].map((skill) => (
                     <span
                       key={skill}
@@ -210,37 +309,22 @@ export default function HomePage() {
 
               <div className="mt-auto flex flex-wrap gap-3 pt-8">
                 <a
-                  href="https://github.com/g4urav1/basic-chatbot"
+                  href="https://github.com/g4urav1/ToDo-App"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-lg border border-default px-5 py-2.5 font-medium text-text transition-all hover:border-accent hover:text-secondary"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="mr-2 h-5 w-5"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-2.1c-3.1.67-3.76-1.32-3.76-1.32-.5-1.3-1.24-1.65-1.24-1.65-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.72 2.63 1.22 3.27.93.1-.72.39-1.22.71-1.5-2.47-.28-5.07-1.24-5.07-5.5 0-1.21.43-2.2 1.15-2.98-.12-.28-.5-1.42.11-2.95 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.67.11 2.95.72.78 1.15 1.77 1.15 2.98 0 4.27-2.6 5.21-5.08 5.49.4.35.76 1.02.76 2.06v3.12c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z" />
-                  </svg>
                   GitHub
                 </a>
 
                 <a
-                  aria-disabled
+                  href="https://to-do-app-navy-nine.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-lg bg-secondary px-5 py-2.5 font-semibold text-main transition-all hover:opacity-85"
                   title="NOT LIVE YET"
                 >
                   Live Demo
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className="ml-2 h-4 w-4"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 17 17 7M7 7h10v10" />
-                  </svg>
                 </a>
               </div>
             </article>
@@ -297,35 +381,19 @@ export default function HomePage() {
                 <a
                   href="https://github.com/g4urav1/Nexus"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-lg border border-default px-5 py-2.5 font-medium text-text transition-all hover:border-accent hover:text-secondary"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="mr-2 h-5 w-5"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-2.1c-3.1.67-3.76-1.32-3.76-1.32-.5-1.3-1.24-1.65-1.24-1.65-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.72 2.63 1.22 3.27.93.1-.72.39-1.22.71-1.5-2.47-.28-5.07-1.24-5.07-5.5 0-1.21.43-2.2 1.15-2.98-.12-.28-.5-1.42.11-2.95 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.67.11 2.95.72.78 1.15 1.77 1.15 2.98 0 4.27-2.6 5.21-5.08 5.49.4.35.76 1.02.76 2.06v3.12c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z" />
-                  </svg>
                   GitHub
                 </a>
 
                 <a
                   href="https://nexus-seven-ochre-83.vercel.app/"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-lg bg-secondary px-5 py-2.5 font-semibold text-main transition-all hover:opacity-85"
                 >
                   Live Demo
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className="ml-2 h-4 w-4"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 17 17 7M7 7h10v10" />
-                  </svg>
                 </a>
               </div>
             </article>
@@ -339,7 +407,7 @@ export default function HomePage() {
         id="contact"
         className="scroll-mt-24 border-t border-accent px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
       >
-        <div className="mx-auto max-w-5xl">
+        <div data-scroll-reveal className="mx-auto max-w-5xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-accent">
             Get in touch
           </p>
@@ -362,7 +430,7 @@ export default function HomePage() {
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center gap-3 rounded-full bg-accent px-7 py-4 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
-             Contact me
+              Contact me
               <span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -370,7 +438,10 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="flex flex-col gap-4 border-t border-primary/10 px-6 py-7 text-xs text-main/45 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16">
+      <footer
+        data-scroll-reveal
+        className="flex flex-col gap-4 border-t border-primary/10 px-6 py-7 text-xs text-main/45 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16"
+      >
         <p>© {new Date().getFullYear()} — Designed &amp; built with care.</p>
 
         <div className="flex items-center gap-6">

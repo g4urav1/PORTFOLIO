@@ -1,5 +1,5 @@
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -19,6 +19,43 @@ export default function Navbar() {
   };
 
   const [mobileMenu, setMobileMenu] = useState(false);
+
+  useEffect(() => {
+    let animationFrame;
+
+    const updateActiveItem = () => {
+      animationFrame = undefined;
+      const activationPoint = window.innerHeight * 0.35;
+      let currentItem = navItems[0].label;
+
+      navItems.forEach(({ label, href }) => {
+        const section = document.getElementById(href.slice(1));
+        if (section && section.getBoundingClientRect().top <= activationPoint) {
+          currentItem = label;
+        }
+      });
+
+      setActiveItem(currentItem);
+    };
+
+    const handleScroll = () => {
+      if (animationFrame === undefined) {
+        animationFrame = window.requestAnimationFrame(updateActiveItem);
+      }
+    };
+
+    updateActiveItem();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      if (animationFrame !== undefined) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, []);
 
   return (
     <nav
